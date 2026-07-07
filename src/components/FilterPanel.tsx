@@ -33,15 +33,17 @@ export default function FilterPanel({ filters, onChange }: Props) {
     if (key === "region") {
       next.country = "";
       next.city = "";
+      next.citySearch = "";
     } else if (key === "country") {
       next.city = "";
+      next.citySearch = "";
     }
     onChange(next);
   }
 
   function reset() {
     onChange({
-      region: "", country: "", city: "",
+      region: "", country: "", city: "", citySearch: "",
       airportCode: "", departureType: "", securityType: "",
     });
   }
@@ -53,13 +55,16 @@ export default function FilterPanel({ filters, onChange }: Props) {
           <Search className="w-5 h-5 text-green-600" />
           筛选条件
         </h2>
-        <button onClick={reset}
-          className="inline-flex items-center gap-1.5 text-sm text-gray-500 hover:text-green-600 transition-colors px-3 py-1.5 rounded-md hover:bg-green-50">
+        <button
+          onClick={reset}
+          className="inline-flex items-center gap-1.5 text-sm text-gray-500 hover:text-green-600 transition-colors px-3 py-1.5 rounded-md hover:bg-green-50"
+        >
           <RotateCcw className="w-4 h-4" />
           重置
         </button>
       </div>
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-6 gap-3">
+
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 mb-3">
         <div className="relative">
           <label className="block text-xs font-medium text-gray-500 mb-1">区域</label>
           <div className="relative">
@@ -71,6 +76,7 @@ export default function FilterPanel({ filters, onChange }: Props) {
             <ChevronDown className="absolute right-2 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400 pointer-events-none" />
           </div>
         </div>
+
         <div className="relative">
           <label className="block text-xs font-medium text-gray-500 mb-1">国家</label>
           <div className="relative">
@@ -83,18 +89,46 @@ export default function FilterPanel({ filters, onChange }: Props) {
             <ChevronDown className="absolute right-2 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400 pointer-events-none" />
           </div>
         </div>
+
         <div className="relative">
-          <label className="block text-xs font-medium text-gray-500 mb-1">城市</label>
+          <label className="block text-xs font-medium text-gray-500 mb-1">城市选择</label>
           <div className="relative">
-            <select value={filters.city} onChange={(e) => update("city", e.target.value)}
+            <select
+              value={filters.city}
+              onChange={(e) => {
+                const val = e.target.value;
+                const next = { ...filters, city: val };
+                if (val) next.citySearch = "";
+                onChange(next);
+              }}
               disabled={!filters.country}
-              className="w-full appearance-none rounded-md border border-gray-300 bg-white px-3 py-2 pr-8 text-sm focus:border-green-500 focus:ring-1 focus:ring-green-500 focus:outline-none disabled:bg-gray-100 disabled:text-gray-400">
+              className="w-full appearance-none rounded-md border border-gray-300 bg-white px-3 py-2 pr-8 text-sm focus:border-green-500 focus:ring-1 focus:ring-green-500 focus:outline-none disabled:bg-gray-100 disabled:text-gray-400"
+            >
               <option value="">{filters.country ? "全部城市" : "请先选国家"}</option>
               {cities.map((c) => (<option key={c} value={c}>{c}</option>))}
             </select>
             <ChevronDown className="absolute right-2 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400 pointer-events-none" />
           </div>
         </div>
+
+        <div>
+          <label className="block text-xs font-medium text-gray-500 mb-1">城市搜索</label>
+          <input
+            type="text"
+            value={filters.citySearch}
+            onChange={(e) => {
+              const val = e.target.value;
+              const next = { ...filters, citySearch: val };
+              if (val) next.city = "";
+              onChange(next);
+            }}
+            placeholder="输入城市名搜索"
+            className="w-full rounded-md border border-gray-300 bg-white px-3 py-2 text-sm focus:border-green-500 focus:ring-1 focus:ring-green-500 focus:outline-none"
+          />
+        </div>
+      </div>
+
+      <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
         <div>
           <label className="block text-xs font-medium text-gray-500 mb-1">机场代码</label>
           <input type="text" value={filters.airportCode}
@@ -102,6 +136,7 @@ export default function FilterPanel({ filters, onChange }: Props) {
             placeholder="如: PEK, JFK"
             className="w-full rounded-md border border-gray-300 bg-white px-3 py-2 text-sm focus:border-green-500 focus:ring-1 focus:ring-green-500 focus:outline-none uppercase placeholder:normal-case" />
         </div>
+
         <div className="relative">
           <label className="block text-xs font-medium text-gray-500 mb-1">出发类型</label>
           <div className="relative">
@@ -112,6 +147,7 @@ export default function FilterPanel({ filters, onChange }: Props) {
             <ChevronDown className="absolute right-2 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400 pointer-events-none" />
           </div>
         </div>
+
         <div className="relative">
           <label className="block text-xs font-medium text-gray-500 mb-1">安检类型</label>
           <div className="relative">
