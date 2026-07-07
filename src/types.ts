@@ -20,6 +20,7 @@ export interface FilterState {
   region: string;
   country: string;
   city: string;
+  citySearch: string;
   airportCode: string;
   departureType: string;
   securityType: string;
