@@ -34,14 +34,16 @@
 
 @layer components {
   .lounge-card-domestic {
-    @apply relative bg-white rounded-lg shadow-sm border border-gray-100 overflow-hidden transition-shadow duration-200 hover:shadow-md;
+    @apply relative bg-white rounded-lg shadow-sm border border-gray-100 transition-shadow duration-200 hover:shadow-md;
+    padding-top: 4px;
   }
   .lounge-card-domestic::before {
     content: "";
     @apply absolute top-0 left-0 right-0 h-1 bg-green-600;
   }
   .lounge-card-overseas {
-    @apply relative bg-white rounded-lg shadow-sm border border-gray-100 overflow-hidden transition-shadow duration-200 hover:shadow-md;
+    @apply relative bg-white rounded-lg shadow-sm border border-gray-100 transition-shadow duration-200 hover:shadow-md;
+    padding-top: 4px;
   }
   .lounge-card-overseas::before {
     content: "";
