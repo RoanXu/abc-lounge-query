@@ -5,19 +5,6 @@ import { defineConfig } from "vite"
 export default defineConfig({
   base: '/abc-lounge-query/',
   plugins: [react()],
-  server: {
-    port: 3000,
-  },
-  resolve: {
-    alias: {
-      "@": path.resolve(__dirname, "./src"),
-    },
-  },
-  build: {
-    rollupOptions: {
-      output: {
-        manualChunks: undefined
-      }
-    }
-  }
+  server: { port: 3000 },
+  resolve: { alias: { "@": path.resolve(__dirname, "./src") } },
 });
