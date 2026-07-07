@@ -1,0 +1,50 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 0 0% 96%;
+    --foreground: 0 0% 13%;
+    --card: 0 0% 100%;
+    --card-foreground: 0 0% 13%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 0 0% 13%;
+    --primary: 122 39% 34%;
+    --primary-foreground: 0 0% 100%;
+    --secondary: 0 0% 96%;
+    --secondary-foreground: 0 0% 13%;
+    --muted: 0 0% 96%;
+    --muted-foreground: 0 0% 46%;
+    --accent: 0 0% 96%;
+    --accent-foreground: 0 0% 13%;
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 0 0% 98%;
+    --border: 0 0% 88%;
+    --input: 0 0% 88%;
+    --ring: 122 39% 34%;
+    --radius: 0.5rem;
+  }
+
+  body {
+    @apply bg-background text-foreground antialiased;
+    font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  }
+}
+
+@layer components {
+  .lounge-card-domestic {
+    @apply relative bg-white rounded-lg shadow-sm border border-gray-100 overflow-hidden transition-shadow duration-200 hover:shadow-md;
+  }
+  .lounge-card-domestic::before {
+    content: "";
+    @apply absolute top-0 left-0 right-0 h-1 bg-green-600;
+  }
+  .lounge-card-overseas {
+    @apply relative bg-white rounded-lg shadow-sm border border-gray-100 overflow-hidden transition-shadow duration-200 hover:shadow-md;
+  }
+  .lounge-card-overseas::before {
+    content: "";
+    @apply absolute top-0 left-0 right-0 h-1 bg-blue-500;
+  }
+}
