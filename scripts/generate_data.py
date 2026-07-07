@@ -1,9 +1,10 @@
 import json
 import pandas as pd
-from collections import Counter
+import re
+from pathlib import Path
 
-# Read overseas data from Excel
-df_overseas = pd.read_excel('/mnt/agents/upload/境外机场贵宾厅列表.xlsx')
+# Read overseas data
+df_overseas = pd.read_excel(Path(__file__).parent.parent / 'upload' / '境外机场贵宾厅列表.xlsx')
 overseas_records = []
 for idx, row in df_overseas.iterrows():
     record = {
@@ -24,8 +25,8 @@ for idx, row in df_overseas.iterrows():
 
 overseas_filtered = [r for r in overseas_records if r['region'] != '中国']
 
-# Read domestic data from new Excel
-df_domestic = pd.read_excel('/mnt/agents/upload/农行信用卡境内贵宾厅.xlsx')
+# Read domestic data from Excel
+df_domestic = pd.read_excel(Path(__file__).parent.parent / 'upload' / '农行信用卡境内贵宾厅.xlsx')
 
 def process_security_type(val):
     val = val.strip() if isinstance(val, str) else ''
@@ -77,7 +78,9 @@ for idx, row in df_domestic.iterrows():
     })
 
 all_records = domestic_records + overseas_filtered
-with open('/mnt/agents/output/app/public/data/lounges.json', 'w', encoding='utf-8') as f:
+output_path = Path(__file__).parent.parent / 'public' / 'data' / 'lounges.json'
+output_path.parent.mkdir(parents=True, exist_ok=True)
+with open(output_path, 'w', encoding='utf-8') as f:
     json.dump(all_records, f, ensure_ascii=False, indent=2)
 
-print(f"Total: {len(all_records)} (domestic: {len(domestic_records)}, overseas: {len(overseas_filtered)})")
+print(f"Generated {len(all_records)} records (domestic: {len(domestic_records)}, overseas: {len(overseas_filtered)})")
