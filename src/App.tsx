@@ -11,6 +11,7 @@ export default function App() {
     region: "",
     country: "",
     city: "",
+    citySearch: "",
     airportCode: "",
     departureType: "",
     securityType: "",
@@ -20,19 +21,30 @@ export default function App() {
     return allRecords.filter((r) => {
       if (filters.region && r.region !== filters.region) return false;
       if (filters.country && r.country !== filters.country) return false;
-      if (filters.city && r.city !== filters.city) return false;
+
+      // City: dropdown exact match OR text fuzzy match
+      if (filters.city) {
+        if (r.city !== filters.city) return false;
+      } else if (filters.citySearch) {
+        const search = filters.citySearch.toLowerCase();
+        if (!r.city.toLowerCase().includes(search) &&
+            !r.airportName.toLowerCase().includes(search)) return false;
+      }
+
       if (filters.airportCode) {
         const code = filters.airportCode.toUpperCase();
-        const matchCode = r.airportCode.toUpperCase().includes(code);
-        const matchName = r.airportName.toUpperCase().includes(code);
-        if (!matchCode && !matchName) return false;
+        if (!r.airportCode.toUpperCase().includes(code) &&
+            !r.airportName.toUpperCase().includes(code)) return false;
       }
+
       if (filters.departureType) {
         if (!r.departureType.includes(filters.departureType)) return false;
       }
+
       if (filters.securityType) {
         if (r.securityType !== filters.securityType) return false;
       }
+
       return true;
     });
   }, [filters]);
